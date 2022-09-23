@@ -15,97 +15,74 @@
 
       
     $volume_tratado= $_POST["volume_tratado"];
-    $vezes_total = $_POST["vezes_total"];
+    $quantidade_vezes = $_POST["quantidade_vezes"];
     $numero_condicao = $_POST["numero_condicao"];
     $concentracao_alvo = $_POST["concentracao_alvo"];
-    $numero_condicao = $_POST["numero_condicao"];
     
 
     
     $query = "INSERT INTO mc1_a1 (codigo, empresa, data_inicio, data_final, volume_tratado, alvo1_e7, volume_producao1, volume_proucao1_total,
-    alvo1_24, volume_producao2, volume_proucao2_total, alvo1_bg13, volume_producao3, volume_proucao3_total, qtd_vezes) VALUES ('$codigo', '$empresa', '$data_inicio', '$data_final', '$volume_tratado', '$alvo1_e7', '$volume_producao1', '$volume_proucao1_total',
-    '$alvo1_24', '$volume_producao2', '$volume_proucao2_total', '$alvo1_bg13', '$volume_producao3', '$volume_proucao3_total', '$qtd_vezes')";
+    alvo1_24, volume_producao2, volume_proucao2_total, alvo1_bg13, volume_producao3, volume_proucao3_total, vezes_total) VALUES ('$codigo', '$empresa', '$data_inicio', '$data_final', '$volume_tratado', '$alvo1_e7', '$volume_producao1', '$volume_proucao1_total',
+    '$alvo1_24', '$volume_producao2', '$volume_proucao2_total', '$alvo1_bg13', '$volume_producao3', '$volume_proucao3_total', '$vezes_total')";
         
     // CÁLCULO DA REPLICATA/ DUPLICATA/ TRIPLICATA  
     echo "<table class='table'>";
             //calculando o valor por vezes do frasco
-            $qtd_vezes = ($volume_tratado*$vezes_total); 
+            $vezes_total = ($volume_tratado*$quantidade_vezes); 
 
     // CALCULAR O ALVO 1 PELO VOLUME CALCULADO ANTES DE ACORDO COM A REP/DUP/TRIP
     switch ($concentracao_alvo){
     case "alvo1":
         // fórmula do UFT TOTAL LEVANDO EM CONSIDERAÇÃO O TIPO DE ISOLADO
-        $alvo1_e7 = (1.3e7*$qtd_vezes); 
+        $UFC_total_e7 = (1.3e7*$volume_tratado); 
 
         // Alvo unitário 
 
         // FÓRMULA DO VOLUME PARA PRODUÇÃO DE ACORDO COM A CONCENTRAÇÃO E O ALVO 
-        $volume_producao1 = ($alvo1_e7/9.96e8); 
+        $volume_para_aplicar_E7 = ($UFC_total_e7/4.98e08); 
 
         // printf("<br> Isolado E7, Volume produção = %e\n", $volume_producao1); 
-        $volume_producao1_total = ($volume_producao1*1.2);
-        $numero_condicao_total_1 = ($volume_producao1_total*$numero_condicao);
+        $volume_total_para_tratamento_E7 = ($volume_para_aplicar_E7*1.2*$numero_condicao*$quantidade_vezes);
 
-        $volume_producao1 = number_format($volume_producao1, 3, ',','.');
-        $volume_producao1_total = number_format($volume_producao1_total, 1, ',','.');
-        $numero_condicao_total_1 = number_format($numero_condicao_total_1, 1, ',','.');
+        $UFC_total_e7 = number_format($UFC_total_e7, 3, ',','.');
+        $volume_para_aplicar_E7 = number_format($volume_para_aplicar_E7, 1, ',','.');
+        $volume_total_para_tratamento_E7 = number_format($volume_total_para_tratamento_E7, 1, ',','.');
 
 
         // fórmula do UFT TOTAL LEVANDO EM CONSIDERAÇÃO O TIPO DE ISOLADO
-        $alvo1_24 = (3.05e6*$qtd_vezes); 
+        $UFC_total_24 = (3.05e6*$volume_tratado); 
         // printf("<br> Isolado 24, UFC total = = %e\n", $alvo1_24);
 
         // FÓRMULA DO VOLUME PARA PRODUÇÃO DE ACORDO COM A CONCENTRAÇÃO E O ALVO 
-        $volume_producao2 = ($alvo1_24/1.65e9); 
+        $volume_para_aplicar_24 = ($UFC_total_24/8.25e08); 
         // printf("<br> Isolado 24, Volume produção = %e\n", $volume_producao2); 
-        $volume_producao2_total = ($volume_producao2*1.2);
-        $numero_condicao_total_2 = ($volume_producao2_total*$numero_condicao);
+        $volume_total_para_tratamento_24 = ($volume_para_aplicar_24*1.2*$numero_condicao*$quantidade_vezes);
 
-        $volume_producao2 = number_format($volume_producao2, 3, ',','.');
-        $volume_producao2_total = number_format($volume_producao2_total, 1, ',','.');
-        $numero_condicao_total_2 = number_format($numero_condicao_total_2, 1, ',','.');
+        $UFC_total_24 = number_format($UFC_total_24, 3, ',','.');
+        $volume_para_aplicar_24 = number_format($volume_para_aplicar_24, 1, ',','.');
+        $volume_total_para_tratamento_24 = number_format($volume_total_para_tratamento_24, 1, ',','.');
 
 
         // fórmula do UFT TOTAL LEVANDO EM CONSIDERAÇÃO O TIPO DE ISOLADO
-        $alvo1_cb13 = (1.78e7*$qtd_vezes); 
+        $UFC_total_cb13 = (1.78e7*$volume_tratado); 
         // printf("<br> Isolado CB13, UFC total = = %e\n", $alvo1_cb13); 
 
         // FÓRMULA DO VOLUME PARA PRODUÇÃO DE ACORDO COM A CONCENTRAÇÃO E O ALVO 
-        $volume_producao3 = ($alvo1_cb13/4.69e8); 
+        $volume_para_aplicar_cb13 = ($UFC_total_cb13/2.45e8); 
 
         // printf("<br> Isolado CB13, Volume produção = %e\n", $volume_producao3); 
-        $volume_producao3_total = ($volume_producao3*1.2);
-        $numero_condicao_total_3 = ($volume_producao3_total*$numero_condicao);
+        $volume_total_para_tratamento_cb13 = ($volume_para_aplicar_cb13*1.2*$numero_condicao*$quantidade_vezes);
 
         // Identação dos números 
-        $volume_producao3 = number_format($volume_producao3, 3, ',','.');
-        $volume_producao3_total = number_format($volume_producao3_total, 1, ',','.');
-        $numero_condicao_total_3 = number_format($numero_condicao_total_3, 1, ',','.');
-
-
-        // fórmula do UFT TOTAL LEVANDO EM CONSIDERAÇÃO O TIPO DE ISOLADO
-        $alvo1_bg1 = (1.27e5*$qtd_vezes); 
-        // printf("<br> Isolado BG1, UFC total = = %e\n", $alvo1_bg1); 
-        
-        // FÓRMULA DO VOLUME PARA PRODUÇÃO DE ACORDO COM A CONCENTRAÇÃO E O ALVO 
-        $volume_producao4 = ($alvo1_bg1/2.46e8); 
-        // printf("<br> Isolado BG1, Volume produção = %e\n", $volume_producao4); 
-        $volume_producao4_total = ($volume_producao4*1.2);
-
-        $numero_condicao_total_4 = ($volume_producao4_total*$numero_condicao);
-
-
-        // Identação dos números 
-        $volume_producao4 = number_format($volume_producao4, 3, ',','.');
-        $volume_producao4_total = number_format($volume_producao4_total, 1, ',','.');
-        $numero_condicao_total_4 = number_format($numero_condicao_total_4, 1, ',','.');
-        
+        $UFC_total_cb13 = number_format($UFC_total_cb13, 3, ',','.');
+        $volume_para_aplicar_cb13 = number_format($volume_para_aplicar_cb13, 1, ',','.');
+        $volume_total_para_tratamento_cb13 = number_format($volume_total_para_tratamento_cb13, 1, ',','.');
 
         break;
 
     case "alvo2":
         // fórmula do UFT TOTAL LEVANDO EM CONSIDERAÇÃO O TIPO DE ISOLADO E7
-        $alvo2_e7 = (1.5e7*$qtd_vezes); 
+        $alvo2_e7 = (1.5e7*$volume_tratado); 
         // printf("<br> Isolado E7, UFC total = %e\n", $alvo2_e7); 
         
         // FÓRMULA DO VOLUME PARA PRODUÇÃO DE ACORDO COM A CONCENTRAÇÃO E O ALVO 
@@ -119,7 +96,7 @@
         $volume_producao1_total_2 = number_format($volume_producao1_total_2, 2, ',','.');
         $numero_condicao_total_1 = number_format($numero_condicao_total_1, 1, ',','.');
         
-        $alvo2_24 = (1.5e7*$qtd_vezes); 
+        $alvo2_24 = (1.5e7*$volume_tratado); 
         // printf("<br> Isolado 24, UFC total = %e\n", $alvo2_24); 
         
         // FÓRMULA DO VOLUME PARA PRODUÇÃO DE ACORDO COM A CONCENTRAÇÃO E O ALVO 
@@ -132,7 +109,7 @@
         $numero_condicao_total_2 = number_format($numero_condicao_total_2, 1, ',','.');
 
         
-        $alvo2_cb13 = (1.5e7*$qtd_vezes); 
+        $alvo2_cb13 = (1.5e7*$volume_tratado); 
         // printf("<br> Isolado CB13, UFC total = %e\n", $alvo2_cb13);
         
         // FÓRMULA DO VOLUME PARA PRODUÇÃO DE ACORDO COM A CONCENTRAÇÃO E O ALVO 
@@ -145,7 +122,7 @@
         $numero_condicao_total_3 = number_format($numero_condicao_total_3, 1, ',','.');
 
        
-        $alvo2_bg1 = (1.5e7*$qtd_vezes); 
+        $alvo2_bg1 = (1.5e7*$volume_tratado); 
         // printf("<br> Isolado BG1, UFC total = %e\n", $alvo2_bg1); 
         
         // FÓRMULA DO VOLUME PARA PRODUÇÃO DE ACORDO COM A CONCENTRAÇÃO E O ALVO 
@@ -195,8 +172,7 @@
       <th scope="col">Volume total de resíduo</th>
       <th scope="col">UFC total</th>
       <th scope="col">Volume para aplicar (ml)</th>
-      <th scope="col">Volume total para tratamento</th>
-      <th scope="col">Volume total vezes a condição</th>
+      <th scope="col">Quantidade total para produzir</th>
     </tr>
   </thead>
   <tbody>
@@ -204,13 +180,13 @@
     <tr>
       <th scope="row">E7</th>
       <th><?= $volume_tratado?></th>
-      <td><?= $qtd_vezes?></td>
+      <td><?= $vezes_total?></td>
     <td>
       <?php 
         
         switch ($concentracao_alvo) {
           case 'alvo1':
-          printf("%.2e", $alvo1_e7);
+          printf("%.2e", $UFC_total_e7);
         break;
       
           case "alvo2":
@@ -225,7 +201,7 @@
         
         switch ($concentracao_alvo) {
           case 'alvo1':
-          printf($volume_producao1);
+          printf($volume_para_aplicar_E7);
         break;
       
           case "alvo2":
@@ -238,7 +214,7 @@
         
         switch ($concentracao_alvo) {
           case 'alvo1':
-          printf($volume_producao1_total);
+          printf($volume_total_para_tratamento_E7);
         break;
       
           case "alvo2":
@@ -248,32 +224,18 @@
 
     ?></td>
 
-          <td><?php 
-        
-        switch ($concentracao_alvo) {
-          case 'alvo1':
-          printf($numero_condicao_total_1);
-        break;
-      
-          case "alvo2":
-            printf($numero_condicao_total_1);
-          break;
-    }
-    
-    ?></td>
-
     </tr>
     
     <!-- OUTRA COLUNA -->
     <tr>
       <th scope="row">24</th>
       <th><?= $volume_tratado?></th>
-      <td><?= $qtd_vezes?></td>
+      <td><?= $vezes_total?></td>
       <td><?php 
         
         switch ($concentracao_alvo) {
           case 'alvo1':
-          printf("%.2e", $alvo1_24);
+          printf("%.2e", $UFC_total_24);
         break;
       
           case "alvo2":
@@ -286,7 +248,7 @@
         
         switch ($concentracao_alvo) {
           case 'alvo1':
-          printf($volume_producao2);
+          printf($volume_para_aplicar_24);
         break;
       
           case "alvo2":
@@ -299,7 +261,7 @@
         
         switch ($concentracao_alvo) {
           case 'alvo1':
-          printf($volume_producao2_total);
+          printf($volume_total_para_tratamento_24);
         break;
       
           case "alvo2":
@@ -309,32 +271,18 @@
 
     ?></td>
 
-          <td><?php 
-        
-        switch ($concentracao_alvo) {
-          case 'alvo1':
-          printf($numero_condicao_total_2);
-        break;
-      
-          case "alvo2":
-            printf($numero_condicao_total_2);
-          break;
-    }
-    
-    ?></td>
-
     </tr>
 
     <!-- OUTRA COLUNA -->
     <tr>
       <th scope="row">CB13</th>
       <th><?= $volume_tratado?></th>
-      <td><?= $qtd_vezes?></td>
+      <td><?= $vezes_total?></td>
       <td><?php 
         
         switch ($concentracao_alvo) {
           case 'alvo1':
-          printf("%.2e", $alvo1_cb13);
+          printf("%.2e", $UFC_total_cb13);
         break;
       
           case "alvo2":
@@ -347,7 +295,7 @@
         
         switch ($concentracao_alvo) {
           case 'alvo1':
-          printf($volume_producao3);
+          printf($volume_para_aplicar_cb13);
         break;
       
           case "alvo2":
@@ -361,7 +309,7 @@
         
         switch ($concentracao_alvo) {
           case 'alvo1':
-          printf($volume_producao3_total);
+          printf($volume_total_para_tratamento_cb13);
         break;
       
           case "alvo2":
@@ -370,58 +318,7 @@
     }
 
     ?></td>
-              <td><?= $numero_condicao_total_3?></td>
-
-
     </tr>
-    <!-- OUTRA COLUNA -->
-    <tr>
-      <th scope="row">BG1</th>
-      <th><?= $volume_tratado?></th>
-      <td><?= $qtd_vezes?></td>
-
-      <td><?php 
-        
-        switch ($concentracao_alvo) {
-          case 'alvo1':
-          printf("%.2e", $alvo1_bg1);
-        break;
-      
-          case "alvo2":
-            printf("%.2e", $alvo2_bg1);
-          break;
-    }
-
-    ?></td>
-
-      <td><?php 
-        
-        switch ($concentracao_alvo) {
-          case 'alvo1':
-          printf($volume_producao4);
-        break;
-      
-          case "alvo2":
-            printf($volume_producao4_2);
-          break;
-    }
-
-    ?></td>
-      <td><?php 
-        
-        switch ($concentracao_alvo) {
-          case 'alvo1':
-          printf($volume_producao4_total);
-        break;
-      
-          case "alvo2":
-            printf($volume_producao3_total_2);
-          break;
-    }
-
-    ?></td>
-                <td><?= $numero_condicao_total_4?></td>
-
     </tr>
   </tbody>
 </table>

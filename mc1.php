@@ -16,9 +16,9 @@
     <div class="col-sm-3 m-3">
         <a href="mc1.php"><button type="button" class="m-3 btn btn-primary">Concentrado MC1</button></a>
     </div>
-    <div class="col-sm-3 m-3">
+    <!-- <div class="col-sm-3 m-3">
         <a href="mc2.php"><button type="button" class="m-3 btn btn-primary">Concentrado MC2</button></a>
-    </div>
+    </div> -->
     <!-- <div class="col-3 m-3">
         <a href="etiqueta.php"><button type="button" class="m-3 btn btn-primary">Etiqueta</button></a>
     </div> -->
@@ -57,7 +57,7 @@
         </div>
         <div class="mt-3 col-sm-4">
             <label class="form-label">Quantidade de vezes</label>
-            <input name="vezes_total" type="number" class="form-control">
+            <input name="quantidade_vezes" type="number" class="form-control">
           </select>
         </div>
         <div class="mt-3 col-sm-4">
